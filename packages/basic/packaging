@@ -1,0 +1,6 @@
+#!/bin/bash
+
+set -e
+
+mkdir -p "${BOSH_INSTALL_TARGET}/bin"
+cp basic "${BOSH_INSTALL_TARGET}/bin"

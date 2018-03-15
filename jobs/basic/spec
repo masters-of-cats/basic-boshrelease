@@ -1,0 +1,13 @@
+---
+name: basic
+
+packages:
+- basic
+
+templates:
+  bin/basic_ctl: bin/basic_ctl
+
+properties:
+  basic.monit_job_with_timeout:
+    description:  monit with_timeout value in seconds
+    default: 30

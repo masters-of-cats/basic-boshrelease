@@ -1,0 +1,59 @@
+#!/bin/bash
+
+set -e
+
+JOB_NAME=basic
+RUN_DIR=/var/vcap/sys/run/$JOB_NAME
+LOG_DIR=/var/vcap/sys/log/$JOB_NAME
+PID_FILEPATH=$RUN_DIR/$JOB_NAME.pid
+
+export PATH=$PATH:/var/vcap/packages/basic/bin
+
+create_dirs() {
+  mkdir -p $RUN_DIR $LOG_DIR
+}
+
+write_pidfile() {
+  echo $$ > $PID_FILEPATH
+  log "wrote pidfile"
+}
+
+start_basic() {
+  log "starting basic"
+  exec 1>> $LOG_DIR/basic.stdout.log
+  exec 2>> $LOG_DIR/basic.stderr.log
+  exec basic
+}
+
+stop_basic() {
+  log "stopping basic"
+  kill "$(cat $PID_FILEPATH)"
+  rm -f $PID_FILEPATH
+}
+
+log() {
+  local msg
+  local time
+
+  msg=$1
+  time=$(date +"%e/%m/%Y - %T")
+
+  echo "$time $msg" >> $LOG_DIR/basic_ctl.log
+}
+
+case $1 in
+  start)
+    create_dirs
+    write_pidfile
+    start_basic
+  ;;
+
+  stop)
+    stop_basic
+  ;;
+
+  *)
+    echo "Usage: $0 {start|stop}"
+    exit 1
+  ;;
+esac

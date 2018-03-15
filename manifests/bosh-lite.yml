@@ -1,0 +1,29 @@
+---
+name: ((deployment))
+
+releases:
+- name: basic
+  version: latest
+
+stemcells:
+- alias: stemcell
+  os: ((stemcell-os))
+  version: latest
+
+instance_groups:
+- name: basic
+  instances: 1
+  vm_type: ((vm))
+  networks:
+  - name: ((network))
+  azs: [((az))]
+  stemcell: stemcell
+  jobs:
+  - name: basic
+    release: basic
+
+update:
+  canaries: 1
+  max_in_flight: 3
+  canary_watch_time: 1000-60000
+  update_watch_time: 1000-60000

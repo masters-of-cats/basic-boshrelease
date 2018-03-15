@@ -1,0 +1,5 @@
+deployment: basic
+stemcell-os: ubuntu-trusty
+vm: container
+network: lite
+az: lite

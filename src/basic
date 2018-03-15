@@ -1,0 +1,9 @@
+#!/bin/bash
+
+trap "echo 'basic exiting' && exit 0" SIGTERM
+
+while :
+do
+  echo "basic running"
+  sleep 1
+done
