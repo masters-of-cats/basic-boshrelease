@@ -21,6 +21,10 @@ instance_groups:
   jobs:
   - name: basic
     release: basic
+    properties:
+      basic:
+        monit_job_with_timeout: 30
+        time_to_sleep_in_ctl: 0
 
 update:
   canaries: 1

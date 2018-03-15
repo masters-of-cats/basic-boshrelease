@@ -1,0 +1,5 @@
+#!/bin/bash
+
+bosh -n -d basic delete-deployment
+bosh -n cr --force && bosh ur
+bosh -n -d basic deploy -l manifests/bosh-lite.vars.yml manifests/bosh-lite.yml

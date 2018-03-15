@@ -9,5 +9,9 @@ templates:
 
 properties:
   basic.monit_job_with_timeout:
-    description:  monit with_timeout value in seconds
+    description: monit with_timeout value in seconds
     default: 30
+
+  basic.time_to_sleep_in_ctl:
+    description: the amount of time to sleep in the _ctl script (i.e. to simulate a slow startup script) in seconds
+    default: 0
