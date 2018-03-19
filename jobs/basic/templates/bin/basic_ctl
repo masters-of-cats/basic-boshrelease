@@ -19,6 +19,18 @@ simulate_something_taking_a_long_time_to_run() {
   log "end sleep"
 }
 
+exit_early_if_basic_process_already_running() {
+  if -f "$PID_FILEPATH"; then
+    pid=$(cat "$PID_FILEPATH")
+    if -d "/proc/$(pid)"; then
+      log "basic process with pid $pid already running - bailing out early"
+      exit 1
+    fi
+  fi
+
+  log "no basic process running atm"
+}
+
 write_pidfile() {
   echo $$ > $PID_FILEPATH
   log "wrote pidfile"
@@ -49,6 +61,7 @@ log() {
 
 case $1 in
   start)
+    exit_early_if_basic_process_already_running
     create_dirs
     simulate_something_taking_a_long_time_to_run
     write_pidfile
