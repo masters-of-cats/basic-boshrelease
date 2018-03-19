@@ -2,3 +2,4 @@ check process basic
   with pidfile  "/var/vcap/sys/run/basic/basic.pid"
   start program "/var/vcap/jobs/basic/bin/basic_ctl start" with timeout <%= p('basic.monit_job_with_timeout') %> seconds
   stop program  "/var/vcap/jobs/basic/bin/basic_ctl stop"
+  group vcap
