@@ -20,6 +20,17 @@ A BOSH release that can be used to quickly and easily to test assumptions about 
 
 ## Experiments
 
+Following are a series of experiments we ran in order to test assumptions.
+Each experiment has 3 variables:
+
+1. monit timeout - this is the value for the `with timeout x seconds` configuration in the monit file
+1. startup - this is the time in seconds to sleep in the startup script (before writing the PID file)
+1. BOSH canary/update timeout - the value of the BOSH canary/update timeout (we use a range, starting at 1 second and varying the max)
+
+For each experiment we did a fresh `bosh deploy` (i.e. created a new VM each time), and observed the monit logs, monit status and bosh deployment output.
+
+The bosh job/process under test is incredibly simple and we use a sleep in the startup to simulate slow startup behaviour.
+
 ### 1). What happens when a BOSH job takes longer than the monit timeout to start
 
 ```
