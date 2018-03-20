@@ -8,13 +8,13 @@ A BOSH release that can be used to quickly and easily to test assumptions about 
 
 ## TL;DR Learnings
 
-1. Make absolutely sure to include the `group vcap` line for processes in a BOSH job monit file
+* Make absolutely sure to include the `group vcap` line for processes in a BOSH job monit file
   * Otherwise BOSH essentially ignores the job and deployment will false-positively succeed
-1. monit is quick (~1 second) to transition jobs to running once the PID file has been written
-1. If a job takes longer than its timeout to startup the deployment can still succeed, assuming a). the canary/update timeout has not been reached, and b). it didn't take more than twice its monit timeout to start
+* monit is quick (~1 second) to transition jobs to running once the PID file has been written
+* If a job takes longer than its timeout to startup the deployment can still succeed, assuming a). the canary/update timeout has not been reached, and b). it didn't take more than twice its monit timeout to start
   * We observed that if a BOSH job takes longer than twice its monit timeout to start, it enters a `Execution failed` state, at which point the BOSH deployment always fails, regardless of the canary/update timeout
   * We also observed that even though monit was reporting `Execution failed` for the job, the underlying process was actually running fine
-1. Each time the monit timeout is reached, monit will start another instance of the process
+* Each time the monit timeout is reached, monit will start another instance of the process
   * In other words, it's totally possible to end up with multiple instances of the process running at the same time
   * We guard against this in garden by checking for the existence of a PID file and bailing out early if one exists
 
